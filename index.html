@@ -1,277 +1,146 @@
-<!doctype html>
-<html lang="hi">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light">
-<title>पढ़ाई का सारथी</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap">
+<!DOCTYPE html>
+<html lang="hi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>पढ़ाई का सारथी - मॉक टेस्ट</title>
 <style>
-:root{color-scheme:light;--bg:#f3f6fc;--card:#fff;--tx:#0f1b3d;--mut:#64748b;--gold:#f5b301;--bd:#e2e8f0;--ok:#16a34a;--bad:#dc2626;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
-html{background:#0b1b3a}
-body{margin:0;background:var(--bg);color:var(--tx);font-family:"Noto Sans Devanagari",system-ui,sans-serif;padding-bottom:84px;line-height:1.5;min-height:100vh}
-main{max-width:560px;margin:0 auto;padding:14px}
-.hd{background:linear-gradient(135deg,#0b1b3a,#1e3a8a);color:#fff;padding:16px 16px 22px;border-radius:0 0 24px 24px}
-.hd.sm{padding:14px 16px;display:flex;align-items:center;gap:10px;font-size:18px}
-.hd h2{margin:12px 0 0}.hd p{margin:0;opacity:.85}
-.top{display:flex;align-items:center;gap:10px;font-size:20px}
-.lg{width:44px;height:44px;border-radius:50%}
-.qt{margin-top:12px;background:rgba(255,255,255,.12);border-radius:14px;padding:12px;font-size:15px}
-.bk{background:none;border:0;color:#fff;font-size:24px;min-width:40px;min-height:40px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px}
-.card.two{display:flex;justify-content:space-around;text-align:center}
-.card.two div,.three div{display:flex;flex-direction:column}
-.c{text-align:center}.mut{color:var(--mut)}
-h3{display:flex;justify-content:space-between;margin:16px 0 10px}
-h3 a{color:#2563eb;font-size:14px;font-weight:400}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif}
+body{background:#0b2447;color:#1b2a41;min-height:100vh}
+.top{display:flex;align-items:center;gap:10px;padding:14px;color:#fff;font-weight:600}
+.top button{background:none;border:0;color:#fff;font-size:22px}
+.timer{margin-left:auto;border:1px solid #fbbf24;color:#fbbf24;border-radius:20px;padding:4px 10px;font-size:14px}
+.card{background:#fff;border-radius:18px;margin:0 12px 12px;padding:16px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.tile{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px 4px;color:var(--tx);font:inherit;font-size:14px;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:96px}
-.ic{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex:none}
-.row{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px;margin-bottom:10px;font-size:20px;color:var(--mut)}
-.gr{flex:1;font-size:16px;color:var(--tx)}.gr small{display:block;font-size:13px}
-.bar{height:8px;background:var(--bd);border-radius:6px;overflow:hidden;margin-top:6px}
-.bar i{display:block;height:100%;border-radius:6px}
-.num{width:36px;height:36px;border-radius:50%;background:var(--bd);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--tx);flex:none;font-size:16px}
-.num.ok{background:var(--ok);color:#fff}
-.big{display:block;width:100%;min-height:52px;margin-top:12px;border:1px solid var(--bd);border-radius:14px;background:var(--card);color:var(--tx);font:inherit;font-size:17px;font-weight:600}
-.big.gold{background:var(--gold);color:#1a1200;border:0}.big.grn{background:var(--ok);color:#fff;border:0}
-.opt{display:flex;gap:10px;align-items:center;width:100%;min-height:50px;margin-top:10px;border:2px solid var(--bd);background:var(--card);color:var(--tx);border-radius:12px;font:inherit;font-size:17px;text-align:left;padding:8px 12px}
-.opt.ok{border-color:var(--ok);background:rgba(34,197,94,.15)}
-.opt.bad{border-color:var(--bad);background:rgba(239,68,68,.15)}
-.three{display:flex;justify-content:space-around;text-align:center;margin-top:12px}
-.sp{display:flex;justify-content:space-between}
-.av{width:64px;height:64px;border-radius:50%;background:var(--gold);color:#1a1200;font-size:28px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
-#clock{font-size:64px;font-weight:700;font-variant-numeric:tabular-nums;margin:16px 0}
-nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
-nav button{flex:1;min-height:60px;border:0;background:none;color:var(--mut);font:inherit;font-size:12px;font-weight:600}
-nav button span{display:block;font-size:22px}nav button.on{color:#2563eb}
-.gate{position:fixed;top:0;left:0;right:0;bottom:0;z-index:20;background:var(--bg);overflow:auto;padding:24px 16px;display:flex;align-items:center;justify-content:center}
-.gate .card{width:100%;max-width:420px}.gate .lg{width:88px;height:88px;display:block;margin:0 auto 8px}
-.inp{display:block;width:100%;box-sizing:border-box;min-height:50px;margin-top:10px;padding:0 12px;border:2px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);font:inherit;font-size:17px}
-.err{color:var(--bad);min-height:24px;margin:8px 0 0}
-.lnk{background:none;border:0;color:#2563eb;font:inherit;font-size:15px;margin-top:10px;min-height:44px;width:100%}
-.pri{display:block;width:100%;min-height:50px;border:0;border-radius:12px;background:#1d4ed8;color:#fff;font:inherit;font-size:17px;font-weight:600;margin-top:12px}
-[hidden]{display:none!important}
-</style>
-</head>
-<body>
+.sub{border-radius:14px;padding:14px 4px;text-align:center;color:#fff;font-weight:600;font-size:14px;cursor:pointer}
+.sub small{display:block;font-weight:400;font-size:11px;opacity:.9;margin-top:4px}
+.sub span{font-size:26px;display:block}
+.btn{display:block;width:100%;background:#fbbf24;color:#1b2a41;border:0;border-radius:12px;padding:14px;font-weight:700;font-size:16px;margin-top:12px}
+.btn.alt{background:#0b2447;color:#fff}.btn.lt{background:#eef2f7;color:#1b2a41}
+.row{display:flex;gap:10px}.row .btn{flex:1}
+.bar{height:8px;background:#e5e9f0;border-radius:6px;overflow:hidden;margin:8px 0 14px}
+.bar i{display:block;height:100%;background:#16a34a;transition:.2s}
+.qn{display:inline-block;background:#2563eb;color:#fff;border-radius:8px;padding:2px 10px;font-weight:700;margin-bottom:8px}
+.q{font-size:17px;font-weight:600;margin-bottom:14px;line-height:1.5;white-space:pre-line}
+.opt{display:flex;align-items:center;gap:10px;border:1.5px solid #dde3ec;border-radius:12px;padding:12px;margin-bottom:10px;cursor:pointer}
+.opt b{width:26px;height:26px;border-radius:50%;background:#e5e9f0;display:grid;place-items:center;font-size:13px;flex:none}
+.opt.sel{border-color:#16a34a;background:#e9f9ef}.opt.sel b{background:#16a34a;color:#fff}
+.opt.ok{border-color:#16a34a;background:#e9f9ef}.opt.bad{border-color:#dc2626;background:#fdecec}
+.info{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eef2f7;font-size:15px}
+.big{text-align:center;font-size:40px;font-weight:800;margin:6px 0}
+.stats{display:flex;text-align:center;margin:12px 0}.stats div{flex:1;font-size:12px}.stats b{display:block;font-size:22px}
+.g{color:#16a34a}.r{color:#dc2626}.y{color:#d97706}
+.rv{padding:10px 0;border-bottom:1px solid #eef2f7;font-size:14px;white-space:pre-line}
+.tag{font-size:12px;font-weight:700}
+.mark.on{background:#fff3c4}
+</style></head><body>
 <div id="app"></div>
-<nav>
-  <button data-t="home" onclick="go('home')"><span>🏠</span>होम</button>
-  <button data-t="courses" onclick="go('courses')"><span>📖</span>कोर्स</button>
-  <button data-t="practice" onclick="go('practice')"><span>🎯</span>प्रैक्टिस</button>
-  <button data-t="progress" onclick="go('progress')"><span>📊</span>प्रोग्रेस</button>
-  <button data-t="profile" onclick="go('profile')"><span>👤</span>प्रोफ़ाइल</button>
-</nav>
-<div class="gate" id="gate" hidden><div class="card">
-  <img class="lg" src="data:image/webp;base64,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" alt="">
-  <h2 id="gt" style="margin:0;text-align:center">लॉगिन</h2>
-  <input class="inp" id="gn" placeholder="आपका नाम" hidden>
-  <input class="inp" id="gm" type="tel" inputmode="numeric" maxlength="10" placeholder="मोबाइल नंबर">
-  <input class="inp" id="gp" type="password" placeholder="पासवर्ड">
-  <p class="err" id="ge"></p>
-  <button class="pri" id="gb">लॉगिन</button>
-  <button class="lnk" id="gs"></button>
-</div></div>
-
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycby9bJspGcONoXy8z3OK0hGWtReyRSIFAj9AYMur-nNoPPD89Ntv6CgeZ5l-eD1nF-N8/exec';
-const $=s=>document.querySelector(s);
-const app=$('#app');
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function ld(){try{return JSON.parse(localStorage.getItem('ps')||'{}')}catch(e){return{}}}
-function sv(o){try{localStorage.setItem('ps',JSON.stringify(o))}catch(e){}}
-function lk(t){return t.getFullYear()+'-'+(t.getMonth()+1)+'-'+t.getDate()}
-
-const S=[
-{id:'sci',n:'विज्ञान',i:'🔬',c:'#16a34a',L:[
- ['मानव शरीर',['मानव शरीर में 206 हड्डियाँ होती हैं।','सबसे बड़ी ग्रंथि यकृत (लिवर) है।','हृदय में 4 कक्ष होते हैं।']],
- ['कोशिका',['कोशिका की खोज रॉबर्ट हुक ने 1665 में की।','माइटोकॉन्ड्रिया को कोशिका का पावरहाउस कहते हैं।']],
- ['विटामिन',['विटामिन C की कमी से स्कर्वी रोग होता है।','विटामिन D की कमी से रिकेट्स रोग होता है।']]],
- Q:[['मानव शरीर में कुल कितनी हड्डियाँ होती हैं?',['206','208','300','212'],0],
- ['कोशिका का पावरहाउस किसे कहते हैं?',['केंद्रक','राइबोसोम','माइटोकॉन्ड्रिया','गॉल्जीकाय'],2],
- ['विटामिन C की कमी से कौन सा रोग होता है?',['रतौंधी','स्कर्वी','रिकेट्स','बेरीबेरी'],1]]},
-{id:'mth',n:'गणित',i:'🧮',c:'#2563eb',L:[
- ['प्रतिशत और ब्याज',['प्रतिशत = (भाग ÷ कुल) × 100','साधारण ब्याज = (मूलधन × दर × समय) ÷ 100']],
- ['चाल, दूरी और समय',['चाल = दूरी ÷ समय','दूरी = चाल × समय']],
- ['ज्यामिति',['त्रिभुज के तीनों कोणों का योग 180° होता है।','आयत का क्षेत्रफल = लंबाई × चौड़ाई']]],
- Q:[['150 का 20% कितना होता है?',['20','25','30','35'],2],
- ['60 किमी/घंटा की चाल से 2 घंटे में कितनी दूरी तय होगी?',['100 किमी','120 किमी','140 किमी','160 किमी'],1],
- ['त्रिभुज के तीनों कोणों का योग कितना होता है?',['90°','180°','270°','360°'],1]]},
-{id:'gk',n:'सामान्य ज्ञान',i:'💡',c:'#0d9488',L:[
- ['भारतीय संविधान',['भारत का संविधान 26 जनवरी 1950 को लागू हुआ।','संविधान सभा के स्थायी अध्यक्ष डॉ. राजेंद्र प्रसाद थे।','भारत के पहले राष्ट्रपति डॉ. राजेंद्र प्रसाद थे।']],
- ['भारत परिचय',['भारत की राजधानी नई दिल्ली है।']]],
- Q:[['भारत का संविधान कब लागू हुआ?',['15 अगस्त 1947','26 जनवरी 1950','26 नवंबर 1949','2 अक्टूबर 1950'],1],
- ['भारत के पहले राष्ट्रपति कौन थे?',['डॉ. राजेंद्र प्रसाद','डॉ. राधाकृष्णन','जवाहरलाल नेहरू','सरदार पटेल'],0],
- ['भारत की राजधानी कौन सी है?',['मुंबई','कोलकाता','नई दिल्ली','चेन्नई'],2]]},
-{id:'rsn',n:'तर्कशक्ति',i:'🧠',c:'#7c3aed',L:[
- ['श्रेणी',['पैटर्न देखें: जैसे 2, 4, 8, 16 में हर संख्या दोगुनी होती है।','अक्षर श्रेणी में A=1 से Z=26 तक क्रम मानकर हल करें।']],
- ['रक्त संबंध',['पहले परिवार का चित्र बनाएँ, फिर प्रश्न हल करें।']]],
- Q:[['श्रेणी पूरी करें: 2, 4, 8, 16, ?',['24','30','32','36'],2],
- ['श्रेणी पूरी करें: 3, 6, 9, 12, ?',['14','15','16','18'],1],
- ['श्रेणी पूरी करें: A, C, E, G, ?',['H','I','J','K'],1]]},
-{id:'mp',n:'मध्य प्रदेश GK',i:'🏞️',c:'#ea580c',L:[
- ['मध्य प्रदेश परिचय',['मध्य प्रदेश की राजधानी भोपाल है।','मध्य प्रदेश का गठन 1 नवंबर 1956 को हुआ।','राज्य पशु बारहसिंगा, राज्य पक्षी दूधराज और राज्य पुष्प पलाश है।']],
- ['नदियाँ और उद्यान',['नर्मदा नदी का उद्गम अमरकंटक है।','कान्हा, बांधवगढ़, पेंच, सतपुड़ा और पन्ना प्रमुख राष्ट्रीय उद्यान हैं।']],
- ['धरोहर और धर्मस्थल',['खजुराहो (छतरपुर), सांची और भीमबेटका (रायसेन) यूनेस्को विश्व धरोहर हैं।','उज्जैन में महाकालेश्वर ज्योतिर्लिंग है और हर 12 वर्ष में सिंहस्थ कुंभ लगता है।']]],
- Q:[['मध्य प्रदेश की राजधानी कौन सी है?',['इंदौर','भोपाल','ग्वालियर','जबलपुर'],1],
- ['नर्मदा नदी का उद्गम कहाँ है?',['अमरकंटक','उज्जैन','मांडू','सांची'],0],
- ['मध्य प्रदेश का राज्य पशु कौन सा है?',['बाघ','हाथी','बारहसिंगा','हिरण'],2],
- ['खजुराहो के मंदिर किस जिले में हैं?',['रायसेन','छतरपुर','सागर','रीवा'],1],
- ['सिंहस्थ कुंभ मध्य प्रदेश के किस शहर में लगता है?',['उज्जैन','इंदौर','भोपाल','जबलपुर'],0],
- ['मध्य प्रदेश का गठन कब हुआ?',['15 अगस्त 1947','26 जनवरी 1950','1 नवंबर 1956','1 नवंबर 2000'],2]]},
-{id:'hin',n:'हिंदी',i:'📝',c:'#dc2626',L:[
- ['हिंदी व्याकरण',['वर्ण के दो भेद हैं: स्वर और व्यंजन।','वचन दो होते हैं: एकवचन और बहुवचन।','लिंग दो होते हैं: पुल्लिंग और स्त्रीलिंग।','काल तीन होते हैं: भूतकाल, वर्तमान काल और भविष्य काल।']]],
- Q:[['हिंदी में काल कितने प्रकार के होते हैं?',['2','3','4','5'],1],
- ['वचन के कितने भेद होते हैं?',['2','3','4','5'],0],
- ['लड़का शब्द का लिंग क्या है?',['स्त्रीलिंग','पुल्लिंग','दोनों','कोई नहीं'],1]]}
-];
-
-function act(n){const d=ld(),t=lk(new Date());d.days=d.days||[];if(!d.days.includes(t))d.days.push(t);d.days=d.days.slice(-90);if(!d.gd||d.gd.d!==t)d.gd={d:t,n:0};d.gd.n+=n||0;sv(d)}
-function streak(){const d=ld().days||[];let c=new Date(),s=0;if(!d.includes(lk(c)))c.setDate(c.getDate()-1);while(d.includes(lk(c))){s++;c.setDate(c.getDate()-1)}return s}
-function done(i){const dn=ld().done||{};return S[i].L.filter((l,j)=>dn[S[i].id+j]).length}
-function pct(i){return Math.round(done(i)/S[i].L.length*100)}
-function nm(){return esc((ld().u||{}).n||'')}
-function hdr(t,back){return '<div class="hd sm">'+(back?'<button class="bk" onclick="if(!goBack())'+back+'">←</button>':'')+'<b>'+t+'</b></div>'}
-
-const T={home:'home',courses:'courses',subj:'courses',lesson:'courses',practice:'practice',run:'practice',progress:'progress',profile:'profile',timer:'home'};
-const R={};
-const TOP=['home','courses','practice','progress','profile'];
-let cv=null,depth=0,hok=true,stk=[];
-function show(v,a,b){R[v](a,b);window.scrollTo(0,0);document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x.dataset.t===T[v]))}
-function hs(kind,st,v){
-  if(!hok)return;
-  try{history[kind](st,'','#'+v)}
-  catch(e){try{history[kind](st,'')}catch(e2){hok=false}}
-}
-function goBack(){
-  if(depth<=0)return false;
-  if(hok){history.back()}
-  else{stk.pop();const s=stk[stk.length-1];depth=s.d;cv=s.v;show(s.v,s.a,s.b)}
-  return true;
-}
-function go(v,a,b){
-  if(v==='home'&&cv!==null&&cv!=='home'&&depth>0){
-    if(hok){
-      history.go(-depth);
-      setTimeout(function(){if(cv!=='home'){depth=0;cv='home';stk=[{v:'home',d:0}];hs('replaceState',{v:'home',d:0},'home');show('home')}},400);
-    }else{stk=[{v:'home',d:0}];depth=0;cv='home';show('home')}
-    return;
-  }
-  const st={v:v,a:a,b:b,d:depth};
-  const replace=cv===null||v==='home'||(TOP.includes(v)&&TOP.includes(cv)&&cv!=='home');
-  if(replace){hs('replaceState',st,v);if(stk.length)stk[stk.length-1]=st;else stk.push(st)}
-  else{depth++;st.d=depth;hs('pushState',st,v);stk.push(st)}
-  cv=v;show(v,a,b);
-}
-window.addEventListener('popstate',function(e){const s=e.state;if(s&&R[s.v]){depth=s.d||0;cv=s.v;show(s.v,s.a,s.b)}});
-
-R.home=()=>{
-  const d=ld(),g=(d.gd&&d.gd.d===lk(new Date()))?d.gd.n:0;
-  app.innerHTML='<div class="hd"><div class="top"><img class="lg" src="data:image/webp;base64,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" alt=""><b>पढ़ाई का सारथी</b></div><h2>नमस्ते '+nm()+' 👋</h2><p>आज क्या पढ़ना है?</p><div class="qt">“छोटे कदम, बड़ी मंज़िल तक ले जाते हैं।”</div></div>'+
-  '<main><div class="card two"><div><b>🔥 '+streak()+' दिन</b><span class="mut">दैनिक स्ट्रीक</span></div><div><b>🎯 '+Math.min(g,3)+'/3 अध्याय</b><span class="mut">आज का लक्ष्य</span></div></div>'+
-  '<h3>विषय चुनें <a onclick="go(\'courses\')">सभी देखें</a></h3><div class="grid">'+
-  S.map((s,i)=>'<button class="tile" onclick="go(\'subj\','+i+')"><span class="ic" style="background:'+s.c+'">'+s.i+'</span>'+s.n+'</button>').join('')+
-  '</div><button class="big" onclick="go(\'timer\')">⏱️ स्टडी टाइमर (25 मिनट)</button></main>';
+// [प्रश्न, [विकल्प], सही विकल्प का index (0 से शुरू)]
+const D={
+maths:{n:'गणित',e:'🔢',c:'#2563eb',q:[
+["दिए गए व्यंजक का सही परिणाम क्या है?\n(84 − 36 ÷ 6) × 3 + (45 ÷ 5 − 7) = ?",["231","201","236","242"],2],
+["एक 120 मीटर लंबी ट्रेन, एक खंभे को 12 सेकंड में पार करती है। इसकी चाल मीटर/सेकंड में ज्ञात कीजिए।",["8 मी/से","10 मी/से","12 मी/से","14 मी/से"],1],
+["दो भाइयों की उम्र में 5 वर्ष का अंतर है। यदि बड़े भाई की उम्र 20 वर्ष है, तो छोटे भाई की उम्र क्या है?",["15 साल","14 साल","13 साल","16 साल"],0],
+["यदि एक घड़ी सुबह 8 बजे 5 मिनट तेज चल रही है और शाम 8 बजे 5 मिनट धीमी हो जाती है, तो वह प्रति घंटे कितने सेकंड खोती है?",["65","60","55","50"],3],
+["यदि @ = जोड़, # = घटाना, $ = गुणा, और % = भाग, तो 12 $ 2 @ 8 % 4 # 6 ज्ञात कीजिए।",["16","18","20","22"],2],
+["दो समानांतर जीवाएँ AB और CD, वृत्त के व्यास की एक ही ओर 14 सेमी की दूरी पर स्थित हैं। यदि AB = 48 सेमी और CD = 36 सेमी हो, तो वृत्त की त्रिज्या ज्ञात कीजिए।",["2√145 सेमी","3√117 सेमी","2√177 सेमी","3√161 सेमी"],0],
+["एक अर्धगोले और एक शंकु का आयतन समान है। अर्धगोले की त्रिज्या r है और शंकु की त्रिज्या भी r है। शंकु की ऊँचाई और उसकी त्रिज्या का अनुपात ज्ञात कीजिए।",["2 : 5","2 : 1","1 : 3","1 : 2"],1],
+["एक त्रिभुजाकार भूखंड की भुजाएँ 15 मीटर, 20 मीटर और 25 मीटर हैं। इस भूखंड का क्षेत्रफल वर्ग मीटर में कितना होगा?",["150","120","180","200"],0],
+["एक त्रिभुज की भुजाएँ 5 मीटर, 12 मीटर और 13 मीटर हैं। इस त्रिभुज का क्षेत्रफल वर्ग मीटर में कितना होगा?",["30","25","60","40"],0],
+["एक समकोण प्रिज़्म जिसका आधार क्षेत्रफल 36 वर्ग सेमी है और ऊँचाई 15 सेमी है। उसका आयतन (घन सेमी में) कितना होगा?",["520","540","560","530"],1],
+["A और B की आयु का अनुपात 3:4 है। B और C की आयु का अनुपात 5:6 है। यदि A, B और C की आयु का योग 118 है, तो B की आयु क्या है?",["30 वर्ष","35 वर्ष","40 वर्ष","45 वर्ष"],2]]},
+reasoning:{n:'रीज़निंग',e:'🧠',c:'#7c3aed',q:[
+["उस रोल नंबर की पहचान करें जो अक्षर-संख्या के क्रमिक प्रारूप का पालन नहीं करता है।",["P1Q3R5","A4B5C6","M7N8O9","X1Y2Z3"],2],
+["निम्नलिखित को तार्किक क्रम में व्यवस्थित करें:\n1. बीज, 2. पौधा, 3. फल, 4. फूल, 5. अंकुर",["1, 5, 4, 2, 3","1, 2, 5, 4, 3","2, 1, 5, 3, 4","1, 5, 2, 4, 3"],3],
+["सर्वश्रेष्ठ क्रम चुनें:\n1. प्रस्ताव, 2. योजना, 3. क्रियान्वयन, 4. पूर्णता, 5. अनुमोदन",["5, 1, 2, 3, 4","1, 5, 2, 3, 4","1, 2, 5, 3, 4","2, 1, 5, 3, 4"],2],
+["निम्न श्रृंखला को पूर्ण करें:\nFY, GX, HW, IV, ?",["KU","JU","JW","JT"],1],
+["सादृश्य (एनालॉजी) पूरा करें।\nमोची : चमड़ा :: बढ़ई : ?",["कपड़ा","लोहा","प्लास्टिक","लकड़ी"],3],
+["एक महिला की ओर इशारा करते हुए रवि ने कहा, \"वह मेरी माँ की बेटी है।\" रवि से उस महिला का क्या रिश्ता है?",["रवि की बहन","रवि की माता","रवि की आंटी","रवि की कज़न"],0],
+["एक लड़के की ओर इशारा करते हुए अजय ने कहा, \"वह मेरे पिता के पिता का इकलौता बेटा है\"। वह लड़का अजय से किस रिश्ते में है?",["अजय के पिता","अजय का भाई","अजय के अंकल","अजय का कजिन"],0],
+["एक पुरुष की ओर इशारा करते हुए अर्जुन ने कहा, \"वह मेरी माँ की बेटी का पिता है\"। वह पुरुष अर्जुन से किस रिश्ते में है?",["अर्जुन का भाई","अर्जुन के अंकल","अर्जुन के पिता","अर्जुन का कजिन"],2],
+["X, Y की बहन है। Y, Z का पिता है। Z, X से किस प्रकार संबंधित है?",["नीस / नेफ्यू","पिता","बेटा","अंकल"],0],
+["चार लोग P, Q, R और S पहली से चौथी मंज़िल पर रहते हैं। S, Q के ठीक नीचे रहता है; P चौथी मंज़िल पर नहीं रहता; S, R से ठीक दो मंज़िल ऊपर है।\nपहली मंज़िल पर कौन रहता है?",["S","Q","R","P"],2],
+["अगर मिनट की सुई 6 पर है और घंटे की सुई ठीक 2 और 3 के बीच है, तो समय क्या होगा?",["2:30","2:15","3:30","3:15"],0],
+["निम्नलिखित श्रृंखला में प्रश्नवाचक चिन्ह (?) के स्थान पर कौन-से अक्षर आएंगे?\nAT, FO, KJ, ?, UZ",["EH","HP","PE","PH"],2]]},
+science:{n:'विज्ञान',e:'🧪',c:'#16a34a',q:[
+["यदि मायोपिक (निकट दृष्टि दोष) आंख को लेंस द्वारा सुधारा जाता है, तो उस लेंस की शक्ति ______ होती है।",["−1.25 D","−0.80 D","+1.25 D","+0.80 D"],0],
+["एक प्रतिरोधक R, विभवांतर V के परिपथ से संयोजित होने पर शक्ति P का क्षय करता है। यदि उसी प्रतिरोधक को 2V पर संयोजित किया जाए, तो क्षयित शक्ति होगी:",["2P","4P","P","P/2"],1],
+["एक सीधे तार में, यदि धारा को दोगुना कर दिया जाए और दूरी को आधा कर दिया जाए, तो चुंबकीय क्षेत्र की तीव्रता क्या होगी:",["समान","दोगुनी","आधी","चार गुना"],3],
+["निम्नलिखित में से कौन-सा फ्लेमिंग के बाएँ हाथ के नियम का सही अनुप्रयोग नहीं है?",["मोटर में बल की दिशा निर्धारित करना","जनरेटर में प्रेरित धारा की दिशा निर्धारित करना","चुंबकीय क्षेत्र में चालक पर लगने वाले बल की दिशा निर्धारित करना","चुंबक की ध्रुवता निर्धारित करना"],1],
+["एक आयताकार लूप जिसमें धारा प्रवाहित हो रही है, उसे एक समान चुंबकीय क्षेत्र में इस प्रकार रखा गया है कि इसका एक पक्ष (साइड) क्षेत्र के लंबवत है और दूसरा समांतर है। किस पक्ष पर अधिकतम बल लगेगा?",["चुंबकीय क्षेत्र के समांतर पक्ष","चुंबकीय क्षेत्र के लंबवत पक्ष","अधिक लंबाई वाला पक्ष","दोनों पक्ष समान रूप से"],1]]},
+mpgk:{n:'MPGK',e:'🗺️',c:'#f59e0b',q:[
+["मध्य प्रदेश का राजवंशीय इतिहास किस साम्राज्य के दौरान शुरू हुआ?",["गुप्त साम्राज्य","मौर्य साम्राज्य","मुगल साम्राज्य","दिल्ली सल्तनत"],1],
+["निम्नलिखित में से कौन-सा मध्य प्रदेश में अग्नि सुरक्षा और अग्निशमन सेवाओं का हिस्सा नहीं है?",["पानी में डूबे शवों को बचाना और उन्हें अस्पताल पहुंचाना।","भोपाल में विशेष अतिथियों के दौरे के दौरान अग्नि सुरक्षा व्यवस्था।","अग्नि दुर्घटना पीड़ितों के अस्पताल बिलों के लिए वित्तीय सहायता प्रदान करना।","गणेश विसर्जन, दुर्गा विसर्जन, मुहर्रम, दिवाली और होली जैसे त्योहारों के दौरान अग्नि सुरक्षा।"],2],
+["मध्य प्रदेश में मटकी नृत्य की शुरुआत कौन करता है?",["पुरुषों का एक समूह","एक अकेली महिला जिसे झेला कहा जाता है","एक पुजारी","गांव का मुखिया"],1],
+["रानी दुर्गावती का विवाह किस राजा से हुआ था?",["राजा छत्रसाल","दलपत शाह","अकबर","रानी अहिल्या बाई"],1],
+["आलमी तबलीगी इज्तिमा मध्य प्रदेश के किस शहर में आयोजित होता है?",["इंदौर","भोपाल","ग्वालियर","जबलपुर"],1],
+["मध्य प्रदेश में खजुराहो नृत्य महोत्सव की अवधि कितनी होती है?",["3 दिन","5 दिन","7 दिन (सप्ताह भर)","10 दिन"],2],
+["मध्य प्रदेश में अहिराई नृत्य आमतौर पर कितनी देर तक चलता है?",["कुछ मिनट","कुछ घंटे","पूरी रात","एक दिन"],2],
+["अक्टूबर 2025 में मध्य प्रदेश के संस्कृति, पर्यटन और धार्मिक न्यास एवं धर्मस्व राज्य मंत्री (स्वतंत्र प्रभार) कौन हैं?",["श्री गौतम टेटवाल","श्री धर्मेन्द्र सिंह लोधी","श्री नरेंद्र शिवाजी पाटिल","श्री दिलीप जायसवाल"],1],
+["बाह मध्यम सिंचाई परियोजना, मध्य प्रदेश में किस नदी घाटी के अंतर्गत आती है?",["गंगा घाटी","गोदावरी घाटी","नर्मदा घाटी","माही घाटी"],0],
+["अमृत भारत स्टेशन योजना के तहत 22 मई, 2023 को प्रधानमंत्री नरेन्द्र मोदी द्वारा मध्य प्रदेश के किस रेलवे स्टेशन का वर्चुअल उद्घाटन किया गया?",["केवल कटनी दक्षिण","केवल श्रीधाम","केवल नर्मदापुरम","ये सभी"],3]]},
+static:{n:'स्टैटिक GK',e:'📖',c:'#dc2626',q:[
+["राज्य के मुख्यमंत्री को पद की शपथ कौन दिलाता है?",["उच्च न्यायालय के मुख्य न्यायाधीश","राष्ट्रपति","राज्यपाल","राज्य विधानसभा अध्यक्ष"],2],
+["निम्नलिखित में से कौन-सा विकल्प जनसंख्या वृद्धि के मॉल्थुसियन सिद्धांत का सर्वोत्तम वर्णन करता है?",["सरकारें हमेशा नीतियों से जनसंख्या को नियंत्रित कर सकती हैं।","जनसंख्या रेखीय रूप से बढ़ती है, भोजन घातीय रूप से बढ़ता है।","जनसंख्या वृद्धि मुख्य रूप से तकनीक से प्रभावित होती है।","जनसंख्या भोजन की आपूर्ति से तेज़ी से बढ़ती है, जिससे संकट उत्पन्न होते हैं।"],3],
+["निम्नलिखित में से किस ग्रंथ में चार युगों के चक्रक्रम (सतयुग, त्रेतायुग, द्वापरयुग, कलियुग) का विस्तारपूर्वक वर्णन और उपयोग प्राचीन भारतीयों द्वारा किया गया है?",["वेद","पुराण","उपनिषद","महाकाव्य"],1],
+["वैदिक काल में निचले गंगा मैदान का कौन-सा बंदरगाह व्यापारिक गतिविधियों में महत्वपूर्ण भूमिका निभाता था?",["लोथल","अरिकमेडु","भृगुकच्छ","तम्रलिप्ति"],3],
+["विक्रमशिला विश्वविद्यालय (बिहार के भागलपुर के पास) की स्थापना किस कालखंड में हुई थी?",["AD 750-770","AD 850-870","AD 950-970","AD 770-810"],3],
+["भारत के सबसे लंबे बाँधों में से एक - हीराकुंड बाँध - किस नदी पर बना है?",["महानदी","कृष्ण","गोदावरी","नर्मदा"],0],
+["तैमूर के आक्रमण के समय गुजरात का गवर्नर कौन था, जिसने 1410 ई. में गुजरात का स्वतंत्र शासक बनने की घोषणा की?",["अहमद शाह","मुहम्मद शाह","फ़तेह ख़ान","ज़फ़र ख़ान"],3]]}
 };
-R.courses=()=>{
-  app.innerHTML=hdr('कोर्स')+'<main>'+S.map((s,i)=>'<div class="row" onclick="go(\'subj\','+i+')"><span class="ic" style="background:'+s.c+'">'+s.i+'</span><div class="gr"><b>'+s.n+'</b><small class="mut">'+done(i)+'/'+s.L.length+' अध्याय पूरे</small><div class="bar"><i style="width:'+pct(i)+'%;background:'+s.c+'"></i></div></div>›</div>').join('')+'</main>';
-};
-R.subj=i=>{
-  const s=S[i],dn=ld().done||{};
-  app.innerHTML=hdr(s.n,"go('courses')")+'<main><div class="card" style="background:'+s.c+';color:#fff"><b>'+s.i+' '+s.n+'</b><br><small>अध्याय • नोट्स • टेस्ट</small></div>'+
-  s.L.map((l,j)=>'<div class="row" onclick="go(\'lesson\','+i+','+j+')"><span class="num '+(dn[s.id+j]?'ok':'')+'">'+(dn[s.id+j]?'✓':j+1)+'</span><div class="gr"><b>'+l[0]+'</b><small class="mut">'+(dn[s.id+j]?'पूरा हुआ':'अभी बाकी')+'</small></div>›</div>').join('')+
-  '<button class="big gold" onclick="startQ('+i+')">📝 '+s.n+' का टेस्ट दें</button></main>';
-};
-R.lesson=(i,j)=>{
-  const s=S[i],l=s.L[j],ok=(ld().done||{})[s.id+j];
-  app.innerHTML=hdr(l[0],"go('subj',"+i+")")+'<main><div class="card"><b>मुख्य बिंदु</b><ul>'+l[1].map(x=>'<li>'+x+'</li>').join('')+'</ul></div><button class="big '+(ok?'':'grn')+'" id="mk">'+(ok?'✓ पूरा हो चुका है':'✓ पूरा हुआ चिह्नित करें')+'</button><p class="mut">परीक्षा से पहले अपनी किताब से तथ्य मिला लें।</p></main>';
-  $('#mk').onclick=()=>{const d=ld();d.done=d.done||{};if(!d.done[s.id+j]){d.done[s.id+j]=1;sv(d);act(1)}if(!goBack())go('subj',i)};
-};
-R.practice=()=>{
-  const sc=ld().sc||{};
-  app.innerHTML=hdr('प्रैक्टिस टेस्ट')+'<main><div class="card"><b>🎯 विषय चुनकर टेस्ट दें</b><br><small class="mut">हर टेस्ट में अधिकतम 10 प्रश्न</small></div>'+
-  S.map((s,i)=>'<div class="row" onclick="startQ('+i+')"><span class="ic" style="background:'+s.c+'">'+s.i+'</span><div class="gr"><b>'+s.n+'</b><small class="mut">'+s.Q.length+' प्रश्न · सर्वश्रेष्ठ: '+(sc[s.id]==null?'-':sc[s.id]+'%')+'</small></div>›</div>').join('')+
-  '<button class="big gold" onclick="startQ(-1)">🔀 सभी विषय मिश्रित</button></main>';
-};
-let qs,qi,qn,qsub,lock;
-function startQ(i){qsub=i;const pool=i<0?S.flatMap(s=>s.Q):S[i].Q;qs=[...pool].sort(()=>Math.random()-.5).slice(0,10);qi=0;qn=0;go('run')}
-R.run=()=>{
-  lock=false;const q=qs[qi];
-  app.innerHTML=hdr('प्रैक्टिस टेस्ट',"go('practice')")+'<main><div class="card"><small class="mut">प्रश्न '+(qi+1)+'/'+qs.length+'</small><div class="bar"><i style="width:'+(qi/qs.length*100)+'%;background:var(--gold)"></i></div><h3 style="display:block">'+q[0]+'</h3>'+
-  q[1].map((o,j)=>'<button class="opt" data-j="'+j+'"><b>'+'ABCD'[j]+'</b> '+o+'</button>').join('')+'</div><button class="big gold" id="nx" hidden>'+(qi===qs.length-1?'परिणाम देखें':'अगला प्रश्न')+'</button></main>';
-  document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pick(+b.dataset.j));
-  $('#nx').onclick=()=>{qi++;qi<qs.length?R.run():fin()};
-};
-function pick(j){
-  if(lock)return;lock=true;const q=qs[qi];if(j===q[2])qn++;
-  document.querySelectorAll('.opt').forEach((b,k)=>{if(k===q[2])b.classList.add('ok');else if(k===j)b.classList.add('bad')});
-  $('#nx').hidden=false;
-}
-function fin(){
-  const p=Math.round(qn/qs.length*100),d=ld(),key=qsub<0?'mix':S[qsub].id;
-  d.sc=d.sc||{};d.sc[key]=Math.max(d.sc[key]||0,p);sv(d);act(0);
-  app.innerHTML=hdr('परिणाम')+'<main><div class="card c"><h1>'+qn+'/'+qs.length+'</h1><p>'+(p>=80?'शानदार! बहुत बढ़िया 🎉':p>=50?'अच्छा प्रयास, थोड़ा और अभ्यास करें।':'दोबारा कोशिश करें, पहले नोट्स पढ़ें।')+'</p></div><button class="big gold" onclick="startQ('+qsub+')">फिर से टेस्ट दें</button><button class="big" onclick="go(\'progress\')">मेरी प्रोग्रेस देखें</button></main>';
-}
-R.progress=()=>{
-  let tot=0,dn=0;S.forEach((s,i)=>{tot+=s.L.length;dn+=done(i)});
-  app.innerHTML=hdr('मेरी प्रोग्रेस')+'<main><div class="card"><b>'+(nm()||'विद्यार्थी')+'</b><div class="three"><div><b>🔥 '+streak()+'</b><small>दिन की स्ट्रीक</small></div><div><b>📖 '+dn+'</b><small>अध्याय पूरे</small></div><div><b>🎯 '+Math.round(dn/tot*100)+'%</b><small>कुल प्रगति</small></div></div></div><h3>विषय के अनुसार प्रगति</h3>'+
-  S.map((s,i)=>'<div class="card"><div class="sp"><span>'+s.i+' '+s.n+'</span><b>'+pct(i)+'%</b></div><div class="bar"><i style="width:'+pct(i)+'%;background:'+s.c+'"></i></div></div>').join('')+'</main>';
-};
-R.profile=()=>{
-  const u=ld().u||{};
-  app.innerHTML=hdr('प्रोफ़ाइल')+'<main><div class="card"><div class="av">'+(esc(u.n||'?').charAt(0).toUpperCase())+'</div><b>'+(nm()||'विद्यार्थी')+'</b><br><small class="mut">मोबाइल: '+esc(u.m||'-')+'</small></div><div class="card"><b>“सीखते रहो, सफलता ज़रूर मिलेगी।”</b></div><button class="big" id="lo">🚪 लॉगआउट</button></main>';
-  $('#lo').onclick=()=>{const d=ld();delete d.u;sv(d);location.reload()};
-};
-
-let rem=1500,tm=null,endAt=0;
-function draw(){const c=$('#clock');if(c)c.textContent=String(Math.floor(rem/60)).padStart(2,'0')+':'+String(rem%60).padStart(2,'0')}
-function tick(){
-  rem=Math.max(0,Math.round((endAt-Date.now())/1000));draw();
-  if(!rem){
-    clearInterval(tm);tm=null;rem=1500;act(0);const d=ld();d.sess=(d.sess||0)+1;sv(d);
-    const m=$('#tmsg');if(m)m.textContent='समय पूरा! 5 मिनट का ब्रेक लें।';
-    const b=$('#tb');if(b)b.textContent='शुरू करें';
-    draw();try{if(navigator.vibrate)navigator.vibrate(400)}catch(e){}
-  }
-}
-R.timer=()=>{
-  app.innerHTML=hdr('स्टडी टाइमर',"go('home')")+'<main><div class="card c"><div id="clock">25:00</div><p class="mut">25 मिनट पूरी एकाग्रता से पढ़ें, फिर 5 मिनट का ब्रेक लें।</p><button class="big gold" id="tb">शुरू करें</button><button class="big" id="tr">रीसेट</button><p id="tmsg" style="font-weight:600"></p></div></main>';
-  draw();$('#tb').textContent=tm?'रोकें':(rem<1500?'जारी रखें':'शुरू करें');
-  $('#tb').onclick=()=>{
-    if(tm){clearInterval(tm);tm=null;$('#tb').textContent='जारी रखें'}
-    else{endAt=Date.now()+rem*1000;tm=setInterval(tick,250);$('#tb').textContent='रोकें';$('#tmsg').textContent=''}
-  };
-  $('#tr').onclick=()=>{clearInterval(tm);tm=null;rem=1500;draw();$('#tb').textContent='शुरू करें';$('#tmsg').textContent=''};
-};
-
-/* login / register */
-const gate=$('#gate');let reg=false;
-async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
-async function call(o){const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(o)});return r.json()}
-function setMode(r){reg=r;$('#gt').textContent=r?'रजिस्टर':'लॉगिन';$('#gn').hidden=!r;$('#gb').textContent=r?'रजिस्टर करें':'लॉगिन';$('#gs').textContent=r?'पहले से खाता है? लॉगिन करें':'नया खाता बनाएँ (रजिस्टर)';$('#ge').textContent=''}
-$('#gs').onclick=()=>setMode(!reg);
-$('#gb').onclick=async()=>{
-  const n=$('#gn').value.trim(),m=$('#gm').value.trim(),p=$('#gp').value,e=$('#ge');
-  if(reg&&n.length<2){e.textContent='नाम लिखें';return}
-  if(!/^[6-9][0-9]{9}$/.test(m)){e.textContent='सही 10 अंकों का मोबाइल नंबर लिखें';return}
-  if(p.length<6){e.textContent='पासवर्ड कम से कम 6 अक्षर का रखें';return}
-  e.textContent='कृपया रुकें...';$('#gb').disabled=true;
-  try{
-    const h=await sha(m+':'+p);
-    const r=await call({action:reg?'register':'login',name:n,mobile:m,hash:h});
-    if(r.ok){const d=ld();d.u={m:m,h:h,n:r.name};sv(d);gate.hidden=true;e.textContent='';go('home')}
-    else e.textContent=r.msg||'दोबारा कोशिश करें';
-  }catch(x){e.textContent='इंटरनेट या सर्वर की समस्या है। दोबारा कोशिश करें।'}
-  $('#gb').disabled=false;
-};
-async function startGate(){
-  if(!API_URL)return;
-  const u=ld().u;
-  if(!u){gate.hidden=false;return}
-  try{const r=await call({action:'login',mobile:u.m,hash:u.h});if(!r.ok){const d=ld();delete d.u;sv(d);gate.hidden=false;$('#ge').textContent=r.msg||''}}catch(x){}
-}
-setMode(false);go('home');startGate();
-</script>
-</body>
-</html>
+const MIN=20,L=["A","B","C","D"];
+let T,cur,ans,mk,left,tm,app=document.getElementById('app');
+function $(h){app.innerHTML=h}
+function home(){clearInterval(tm);
+$(`<div class="top">📚 पढ़ाई का सारथी</div>
+<div class="card"><h3>नमस्ते 👋</h3><p style="margin:4px 0 12px;color:#667">आज क्या नया सीखने का प्लान है?</p>
+<h4 style="margin-bottom:10px">मॉक टेस्ट</h4><div class="grid">`+
+Object.keys(D).map(k=>`<div class="sub" style="background:${D[k].c}" onclick="intro('${k}')"><span>${D[k].e}</span>${D[k].n}<small>${D[k].q.length} प्र. • ${MIN} मिनट</small></div>`).join('')+`</div></div>`)}
+function intro(k){T=k;const d=D[k];
+$(`<div class="top"><button onclick="home()">←</button>${d.n} मॉक टेस्ट</div>
+<div class="card"><h2>${d.e} ${d.n}</h2><p style="color:#667">${d.q.length} प्रश्न | ${MIN} मिनट</p>
+<h4 style="margin:16px 0 4px">टेस्ट के निर्देश</h4>
+<div class="info"><span>कुल प्रश्न</span><b>${d.q.length}</b></div>
+<div class="info"><span>समय सीमा</span><b>${MIN} मिनट</b></div>
+<div class="info"><span>नेगेटिव मार्किंग</span><b>0</b></div>
+<div class="info"><span>समय खत्म होने पर टेस्ट अपने-आप सबमिट हो जाएगा</span></div>
+<div class="info"><span>सबमिट करने से पहले जवाब रिव्यू कर सकते हैं</span></div>
+<button class="btn" onclick="start()">टेस्ट शुरू करें</button></div>`)}
+function start(){const n=D[T].q.length;cur=0;ans=Array(n).fill(-1);mk=Array(n).fill(false);left=MIN*60;
+clearInterval(tm);tm=setInterval(()=>{left--;const e=document.getElementById('tm');if(e)e.textContent=fmt(left);if(left<=0){clearInterval(tm);timeUp()}},1000);show()}
+function fmt(s){s=Math.max(s,0);return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}
+function show(){const d=D[T],n=d.q.length,q=d.q[cur];
+$(`<div class="top"><button onclick="if(confirm('टेस्ट छोड़ना है?'))home()">←</button>${d.n} मॉक टेस्ट<span class="timer" id="tm">${fmt(left)}</span></div>
+<div class="card"><small>प्र. ${cur+1} / ${n}</small><div class="bar"><i style="width:${(cur+1)/n*100}%"></i></div>
+<span class="qn">Q.${cur+1}</span><div class="q">${q[0]}</div>`+
+q[1].map((o,i)=>`<div class="opt ${ans[cur]==i?'sel':''}" onclick="pick(${i})"><b>${L[i]}</b>${o}</div>`).join('')+
+`<div class="row"><button class="btn lt mark ${mk[cur]?'on':''}" onclick="mark()">🔖 ${mk[cur]?'मार्क किया':'रिव्यू के लिए मार्क'}</button>
+${cur<n-1?`<button class="btn alt" onclick="go(1)">अगला ›</button>`:`<button class="btn" onclick="summary()">पूरा करें</button>`}</div>
+${cur>0?`<button class="btn lt" onclick="go(-1)">‹ पिछला</button>`:''}</div>`)}
+function pick(i){ans[cur]=i;show()}
+function mark(){mk[cur]=!mk[cur];show()}
+function go(x){cur+=x;show()}
+function timeUp(){$(`<div class="top"></div><div class="card" style="text-align:center"><div class="big">⏰ समय समाप्त!</div><p>आपका टेस्ट अब अपने-आप सबमिट होगा।</p><button class="btn" onclick="result()">रिज़ल्ट देखें</button></div>`)}
+function summary(){const d=D[T],a=ans.filter(x=>x>=0).length;
+$(`<div class="top"><button onclick="show()">←</button>टेस्ट सारांश</div>
+<div class="card"><h3>${d.n} मॉक टेस्ट</h3>
+<div class="stats"><div><b class="g">${a}</b>हल किए</div><div><b class="y">${d.q.length-a}</b>छोड़े गए</div><div><b style="color:#2563eb">${mk.filter(x=>x).length}</b>मार्क किए</div></div>
+<p style="text-align:center;color:#667;font-size:13px">क्या आप सबमिट करना चाहते हैं? सबमिट के बाद बदलाव नहीं हो सकते।</p>
+<button class="btn" onclick="result()">टेस्ट सबमिट करें</button><button class="btn lt" onclick="cur=0;show()">जवाब रिव्यू करें</button></div>`)}
+function result(){clearInterval(tm);const d=D[T],n=d.q.length;
+let c=0,w=0;d.q.forEach((q,i)=>{if(ans[i]<0)return;ans[i]==q[2]?c++:w++});const u=n-c-w,used=MIN*60-Math.max(left,0);
+$(`<div class="top"><button onclick="home()">←</button>टेस्ट रिज़ल्ट</div>
+<div class="card" style="text-align:center"><div style="font-size:48px">🏆</div>
+<h2>${c/n>=.8?'शाबाश!':c/n>=.5?'अच्छा प्रयास!':'लगे रहो!'}</h2>
+<div class="big">${c}/${n}</div><p style="color:#667">सही</p>
+<div class="stats"><div><b class="g">${c}</b>सही</div><div><b class="r">${w}</b>गलत</div><div><b class="y">${u}</b>छोड़े गए</div></div>
+<div class="stats"><div><b>${fmt(used)}</b>लगा समय</div><div><b>${c}/${n}</b>कुल अंक</div></div>
+<button class="btn alt" onclick="review()">👁 हल देखें</button><button class="btn" onclick="intro(T)">↻ दोबारा करें</button></div>`)}
+function review(){const d=D[T];
+$(`<div class="top"><button onclick="result()">←</button>जवाब रिव्यू</div><div class="card">`+
+d.q.map((q,i)=>{const a=ans[i],ok=a==q[2];
+return `<div class="rv"><b>${i+1}. ${q[0]}</b>`+
+q[1].map((o,j)=>`<div class="opt ${j==q[2]?'ok':(j==a?'bad':'')}" style="padding:8px;margin:6px 0"><b>${L[j]}</b>${o}</div>`).join('')+
+`<span class="tag ${a<0?'y':ok?'g':'r'}">${a<0?'छोड़ा गया':ok?'सही ✓':'गलत ✗'}</span></div>`}).join('')+
+`<button class="btn" onclick="home()">होम</button></div>`)}
+home();
+</script></body></html>
