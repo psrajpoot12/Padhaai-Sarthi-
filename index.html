@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Padhaai Sarthi</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#f4f7ff;--card:#ffffff;--tx:#14213d;--mut:#5c6b8a;--pri:#1d4ed8;--priTx:#ffffff;--ok:#15803d;--bad:#b91c1c;--bd:#dbe3f5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f172a;--card:#1e293b;--tx:#e8eefc;--mut:#9fb0d0;--pri:#60a5fa;--priTx:#0b1220;--ok:#4ade80;--bad:#f87171;--bd:#334155}}
+:root[data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--tx:#e8eefc;--mut:#9fb0d0;--pri:#60a5fa;--priTx:#0b1220;--ok:#4ade80;--bad:#f87171;--bd:#334155}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:84px;line-height:1.5}
+main{max-width:560px;margin:0 auto;padding:16px}
+.hero{background:var(--pri);color:var(--priTx);border-radius:16px;padding:20px;margin-bottom:16px}
+.hero h1{margin:0 0 4px;font-size:24px}.hero p{margin:0;opacity:.9}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px}
+.mut{color:var(--mut);font-size:14px}
+button{font:inherit;cursor:pointer}
+.big{display:block;width:100%;min-height:56px;margin-bottom:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:14px;font-size:18px;font-weight:600;text-align:left;padding:0 16px}
+.pri{display:block;width:100%;min-height:50px;border:0;border-radius:12px;background:var(--pri);color:var(--priTx);font-size:17px;font-weight:600;margin-top:12px}
+.opt{display:block;width:100%;min-height:50px;margin-top:10px;border:2px solid var(--bd);background:var(--card);color:var(--tx);border-radius:12px;font-size:17px;text-align:left;padding:8px 14px}
+.opt.ok{border-color:var(--ok);background:rgba(34,197,94,.15)}
+.opt.bad{border-color:var(--bad);background:rgba(239,68,68,.15)}
+details{background:var(--card);border:1px solid var(--bd);border-radius:14px;margin-bottom:10px;padding:0 14px}
+summary{min-height:52px;display:flex;align-items:center;font-weight:700;font-size:18px;cursor:pointer}
+details ul{margin:0 0 12px;padding-left:20px}details li{margin-bottom:6px}
+#clock{font-size:64px;font-weight:700;text-align:center;margin:24px 0;font-variant-numeric:tabular-nums}
+.row{display:flex;gap:10px}.row .pri{margin-top:0}
+.sec{background:var(--card)!important;color:var(--tx)!important;border:1px solid var(--bd)!important}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav button{flex:1;min-height:60px;border:0;background:none;color:var(--mut);font-size:13px;font-weight:600}
+nav button span{display:block;font-size:22px}
+nav button.on{color:var(--pri)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<section id="home">
+  <div class="hero"><h1>Padhaai Sarthi</h1><p>MP Police Exam Prep</p></div>
+  <button class="big" data-go="notes">📖 Notes</button>
+  <button class="big" data-go="quiz">✅ Daily Quiz</button>
+  <button class="big" data-go="timer">⏱️ Study Timer</button>
+  <div class="card"><b>Progress</b><div class="mut" id="stats"></div></div>
+</section>
+
+<section id="notes" hidden>
+  <h2>Notes</h2>
+  <p class="mut">सब्जेक्ट पर टैप करें। परीक्षा से पहले अपनी किताब से तथ्य ज़रूर मिलाएँ।</p>
+  <div id="notesList"></div>
+</section>
+
+<section id="quiz" hidden>
+  <h2>Daily Quiz</h2>
+  <div class="card" id="qbox"></div>
+</section>
+
+<section id="timer" hidden>
+  <h2>Study Timer</h2>
+  <p class="mut">25 मिनट पूरी एकाग्रता से पढ़ें, फिर 5 मिनट का ब्रेक लें।</p>
+  <div id="clock">25:00</div>
+  <div class="row"><button class="pri" id="tb">Start</button><button class="pri sec" id="tr">Reset</button></div>
+  <p id="tmsg" style="text-align:center;font-weight:600"></p>
+</section>
+</main>
+
+<nav>
+  <button id="n-home" class="on" data-go="home"><span>🏠</span>Home</button>
+  <button id="n-notes" data-go="notes"><span>📖</span>Notes</button>
+  <button id="n-quiz" data-go="quiz"><span>✅</span>Quiz</button>
+  <button id="n-timer" data-go="timer"><span>⏱️</span>Timer</button>
+</nav>
+
+<script>
+const $=s=>document.querySelector(s);
+const tabs=['home','notes','quiz','timer'];
+function ld(){try{return JSON.parse(localStorage.getItem('ps')||'{}')}catch(e){return{}}}
+function sv(o){try{localStorage.setItem('ps',JSON.stringify(o))}catch(e){}}
+function home(){const d=ld();$('#stats').textContent='Best quiz score: '+(d.best||0)+'/10  ·  Study sessions: '+(d.sess||0)}
+function go(t){tabs.forEach(x=>{$('#'+x).hidden=x!==t;$('#n-'+x).classList.toggle('on',x===t)});window.scrollTo(0,0)}
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+
+const N={
+"Science":["मानव शरीर में 206 हड्डियाँ होती हैं।","सबसे बड़ी ग्रंथि यकृत (लिवर) है।","कोशिका की खोज रॉबर्ट हुक ने 1665 में की।","माइटोकॉन्ड्रिया को कोशिका का पावरहाउस कहते हैं।","हृदय में 4 कक्ष होते हैं।","विटामिन C की कमी से स्कर्वी रोग होता है।"],
+"GK":["भारत का संविधान 26 जनवरी 1950 को लागू हुआ।","भारत के पहले राष्ट्रपति डॉ. राजेंद्र प्रसाद थे।","संविधान सभा के स्थायी अध्यक्ष डॉ. राजेंद्र प्रसाद थे।","भारत की राजधानी नई दिल्ली है।"],
+"Maths":["प्रतिशत = (भाग ÷ कुल) × 100","साधारण ब्याज = (मूलधन × दर × समय) ÷ 100","चाल = दूरी ÷ समय","त्रिभुज के तीनों कोणों का योग 180° होता है।"],
+"Reasoning":["श्रेणी में पहले अंतर या गुणा का पैटर्न देखें। जैसे 2, 4, 8, 16 में हर संख्या दोगुनी होती है।","अक्षर श्रेणी में A=1 से Z=26 तक क्रम मान लेकर हल करें।","रक्त संबंध के प्रश्न में पहले परिवार का चित्र बनाएँ।"],
+"MP GK":["मध्य प्रदेश की राजधानी भोपाल है।","मध्य प्रदेश का गठन 1 नवंबर 1956 को हुआ।","नर्मदा नदी का उद्गम अमरकंटक है।","राज्य पशु बारहसिंगा, राज्य पक्षी दूधराज और राज्य पुष्प पलाश है।","खजुराहो (छतरपुर), सांची और भीमबेटका (रायसेन) यूनेस्को विश्व धरोहर हैं।","उज्जैन में महाकालेश्वर ज्योतिर्लिंग है और हर 12 वर्ष में सिंहस्थ कुंभ लगता है।","कान्हा, बांधवगढ़, पेंच, सतपुड़ा और पन्ना प्रमुख राष्ट्रीय उद्यान हैं।"]
+};
+$('#notesList').innerHTML=Object.entries(N).map(([k,v])=>'<details><summary>'+k+'</summary><ul>'+v.map(i=>'<li>'+i+'</li>').join('')+'</ul></details>').join('');
+
+const Q=[
+{q:"मध्य प्रदेश की राजधानी कौन सी है?",o:["इंदौर","भोपाल","ग्वालियर","जबलपुर"],a:1},
+{q:"नर्मदा नदी का उद्गम कहाँ है?",o:["अमरकंटक","उज्जैन","मांडू","सांची"],a:0},
+{q:"मध्य प्रदेश का राज्य पशु कौन सा है?",o:["बाघ","हाथी","बारहसिंगा","हिरण"],a:2},
+{q:"खजुराहो के मंदिर किस जिले में हैं?",o:["रायसेन","छतरपुर","सागर","रीवा"],a:1},
+{q:"सांची का स्तूप किस जिले में है?",o:["रायसेन","भोपाल","सीहोर","विदिशा"],a:0},
+{q:"सिंहस्थ कुंभ मध्य प्रदेश के किस शहर में लगता है?",o:["उज्जैन","इंदौर","भोपाल","जबलपुर"],a:0},
+{q:"मध्य प्रदेश का गठन कब हुआ?",o:["15 अगस्त 1947","26 जनवरी 1950","1 नवंबर 1956","1 नवंबर 2000"],a:2},
+{q:"मध्य प्रदेश का राज्य पक्षी कौन सा है?",o:["मोर","दूधराज","गौरैया","तोता"],a:1},
+{q:"मानव शरीर में कुल कितनी हड्डियाँ होती हैं?",o:["206","208","300","212"],a:0},
+{q:"कोशिका का पावरहाउस किसे कहते हैं?",o:["केंद्रक","राइबोसोम","माइटोकॉन्ड्रिया","गॉल्जीकाय"],a:2},
+{q:"विटामिन C की कमी से कौन सा रोग होता है?",o:["रतौंधी","स्कर्वी","रिकेट्स","बेरीबेरी"],a:1},
+{q:"भारत का संविधान कब लागू हुआ?",o:["15 अगस्त 1947","26 जनवरी 1950","26 नवंबर 1949","2 अक्टूबर 1950"],a:1},
+{q:"भारत के पहले राष्ट्रपति कौन थे?",o:["डॉ. राजेंद्र प्रसाद","डॉ. राधाकृष्णन","जवाहरलाल नेहरू","सरदार पटेल"],a:0},
+{q:"150 का 20% कितना होता है?",o:["20","25","30","35"],a:2},
+{q:"श्रेणी पूरी करें: 2, 4, 8, 16, ?",o:["24","30","32","36"],a:2}
+];
+let qs,qi,sc,lock;
+function startQ(){qs=[...Q].sort(()=>Math.random()-.5).slice(0,10);qi=0;sc=0;showQ()}
+function showQ(){
+  lock=false;const q=qs[qi];
+  $('#qbox').innerHTML='<div class="mut">Question '+(qi+1)+'/10</div><h3>'+q.q+'</h3>'+q.o.map((o,j)=>'<button class="opt" data-j="'+j+'">'+o+'</button>').join('')+'<button id="nx" class="pri" hidden>'+(qi===9?'Finish':'Next')+'</button>';
+  document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pick(+b.dataset.j));
+  $('#nx').onclick=()=>{qi++;qi<10?showQ():endQ()};
+}
+function pick(j){
+  if(lock)return;lock=true;const q=qs[qi];if(j===q.a)sc++;
+  document.querySelectorAll('.opt').forEach((b,k)=>{if(k===q.a)b.classList.add('ok');else if(k===j)b.classList.add('bad')});
+  $('#nx').hidden=false;
+}
+function endQ(){
+  const d=ld();d.best=Math.max(d.best||0,sc);sv(d);home();
+  $('#qbox').innerHTML='<h3>Score: '+sc+'/10</h3><p>'+(sc>=8?'शानदार! बहुत बढ़िया।':sc>=5?'अच्छा प्रयास, थोड़ा और अभ्यास करें।':'दोबारा कोशिश करें, नोट्स पढ़कर आएँ।')+'</p><button class="pri" id="rt">Try again</button>';
+  $('#rt').onclick=startQ;
+}
+
+let rem=1500,t=null,endAt=0;
+function draw(){$('#clock').textContent=String(Math.floor(rem/60)).padStart(2,'0')+':'+String(rem%60).padStart(2,'0')}
+function tick(){
+  rem=Math.max(0,Math.round((endAt-Date.now())/1000));draw();
+  if(rem===0){
+    clearInterval(t);t=null;$('#tb').textContent='Start';
+    $('#tmsg').textContent='समय पूरा! 5 मिनट का ब्रेक लें।';
+    const d=ld();d.sess=(d.sess||0)+1;sv(d);home();
+    try{if(navigator.vibrate)navigator.vibrate(400)}catch(e){}
+    rem=1500;draw();
+  }
+}
+$('#tb').onclick=()=>{
+  if(t){clearInterval(t);t=null;$('#tb').textContent='Resume'}
+  else{endAt=Date.now()+rem*1000;t=setInterval(tick,250);$('#tb').textContent='Pause';$('#tmsg').textContent=''}
+};
+$('#tr').onclick=()=>{clearInterval(t);t=null;rem=1500;draw();$('#tb').textContent='Start';$('#tmsg').textContent=''};
+
+home();startQ();
+</script>
+</body>
+</html>
