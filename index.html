@@ -10,7 +10,7 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f172a;--card:#1e293b;--tx:#e8eefc;--mut:#9fb0d0;--pri:#60a5fa;--priTx:#0b1220;--ok:#4ade80;--bad:#f87171;--bd:#334155}}
 :root[data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--tx:#e8eefc;--mut:#9fb0d0;--pri:#60a5fa;--priTx:#0b1220;--ok:#4ade80;--bad:#f87171;--bd:#334155}
 html{background:var(--bg)}
-body{margin:0;background:var(--bg);color:var(--tx);font-family:"Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:84px;line-height:1.5}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",sans-serif;padding-top:64px;line-height:1.5}
 main{max-width:560px;margin:0 auto;padding:16px}
 .hero{background:var(--pri);color:var(--priTx);border-radius:16px;padding:20px;margin-bottom:16px}
 .hero h1{margin:0 0 4px;font-size:24px}.hero p{margin:0;opacity:.9}
@@ -28,10 +28,11 @@ details ul{margin:0 0 12px;padding-left:20px}details li{margin-bottom:6px}
 #clock{font-size:64px;font-weight:700;text-align:center;margin:24px 0;font-variant-numeric:tabular-nums}
 .row{display:flex;gap:10px}.row .pri{margin-top:0}
 .sec{background:var(--card)!important;color:var(--tx)!important;border:1px solid var(--bd)!important}
-nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav{position:fixed;top:0;left:0;right:0;display:flex;background:var(--card);border-bottom:1px solid var(--bd);padding-top:env(safe-area-inset-top,0px);z-index:5}
 nav button{flex:1;min-height:60px;border:0;background:none;color:var(--mut);font-size:13px;font-weight:600}
 nav button span{display:block;font-size:22px}
 nav button.on{color:var(--pri)}
+.gate{position:fixed;top:0;left:0;right:0;bottom:0;z-index:20;background:var(--bg);overflow:auto;padding:24px 16px;display:flex;align-items:center;justify-content:center}.gate .card{width:100%;max-width:420px}.inp{display:block;width:100%;box-sizing:border-box;min-height:50px;margin-top:10px;padding:0 12px;border:2px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);font:inherit;font-size:17px}.err{color:var(--bad);min-height:24px;margin:8px 0 0}.lnk{background:none;border:0;color:var(--pri);font:inherit;font-size:15px;margin-top:12px;min-height:44px;width:100%}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -43,6 +44,7 @@ nav button.on{color:var(--pri)}
   <button class="big" data-go="quiz">✅ Daily Quiz</button>
   <button class="big" data-go="timer">⏱️ Study Timer</button>
   <div class="card"><b>Progress</b><div class="mut" id="stats"></div></div>
+  <button class="lnk" id="lo" hidden>Logout</button>
 </section>
 
 <section id="notes" hidden>
@@ -64,6 +66,16 @@ nav button.on{color:var(--pri)}
   <p id="tmsg" style="text-align:center;font-weight:600"></p>
 </section>
 </main>
+
+<div class="gate" id="gate" hidden><div class="card">
+  <h2 id="gt" style="margin-top:0">Login</h2>
+  <input class="inp" id="gn" placeholder="नाम (Name)" hidden>
+  <input class="inp" id="gm" type="tel" inputmode="numeric" maxlength="10" placeholder="Mobile number">
+  <input class="inp" id="gp" type="password" placeholder="Password">
+  <p class="err" id="ge"></p>
+  <button class="pri" id="gb">Login</button>
+  <button class="lnk" id="gs"></button>
+</div></div>
 
 <nav>
   <button id="n-home" class="on" data-go="home"><span>🏠</span>Home</button>
@@ -144,6 +156,34 @@ $('#tb').onclick=()=>{
 };
 $('#tr').onclick=()=>{clearInterval(t);t=null;rem=1500;draw();$('#tb').textContent='Start';$('#tmsg').textContent=''};
 
+const API_URL='https://script.google.com/macros/s/AKfycby9bJspGcONoXy8z3OK0hGWtReyRSIFAj9AYMur-nNoPPD89Ntv6CgeZ5l-eD1nF-N8/exec';
+const gate=$('#gate');let reg=false;
+async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+async function call(o){const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(o)});return r.json()}
+function setMode(r){reg=r;$('#gt').textContent=r?'Register':'Login';$('#gn').hidden=!r;$('#gb').textContent=r?'Register':'Login';$('#gs').textContent=r?'पहले से खाता है? Login करें':'नया खाता बनाएँ (Register)';$('#ge').textContent=''}
+$('#gs').onclick=()=>setMode(!reg);
+$('#gb').onclick=async()=>{
+  const n=$('#gn').value.trim(),m=$('#gm').value.trim(),p=$('#gp').value,e=$('#ge');
+  if(reg&&n.length<2){e.textContent='नाम लिखें';return}
+  if(!/^[6-9][0-9]{9}$/.test(m)){e.textContent='सही 10 अंकों का मोबाइल नंबर लिखें';return}
+  if(p.length<6){e.textContent='पासवर्ड कम से कम 6 अक्षर का रखें';return}
+  e.textContent='कृपया रुकें...';$('#gb').disabled=true;
+  try{
+    const h=await sha(m+':'+p);
+    const r=await call({action:reg?'register':'login',name:n,mobile:m,hash:h});
+    if(r.ok){const d=ld();d.u={m:m,h:h,n:r.name};sv(d);gate.hidden=true;e.textContent=''}else e.textContent=r.msg||'दोबारा कोशिश करें';
+  }catch(x){e.textContent='इंटरनेट या सर्वर की समस्या है। दोबारा कोशिश करें।'}
+  $('#gb').disabled=false;
+};
+$('#lo').onclick=()=>{const d=ld();delete d.u;sv(d);location.reload()};
+async function startGate(){
+  if(!API_URL)return;
+  $('#lo').hidden=false;
+  const u=ld().u;
+  if(!u){gate.hidden=false;return}
+  try{const r=await call({action:'login',mobile:u.m,hash:u.h});if(!r.ok){const d=ld();delete d.u;sv(d);gate.hidden=false;$('#ge').textContent=r.msg||''}}catch(x){}
+}
+setMode(false);startGate();
 home();startQ();
 </script>
 </body>
