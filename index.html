@@ -204,12 +204,6 @@ R.lesson=(i,j)=>{
   app.innerHTML=hdr(l[0],"go('subj',"+i+")")+'<main><div class="card"><b>मुख्य बिंदु</b><ul>'+l[1].map(x=>'<li>'+x+'</li>').join('')+'</ul></div><button class="big '+(ok?'':'grn')+'" id="mk">'+(ok?'✓ पूरा हो चुका है':'✓ पूरा हुआ चिह्नित करें')+'</button><p class="mut">परीक्षा से पहले अपनी किताब से तथ्य मिला लें।</p></main>';
   $('#mk').onclick=()=>{const d=ld();d.done=d.done||{};if(!d.done[s.id+j]){d.done[s.id+j]=1;sv(d);act(1)}if(!goBack())go('subj',i)};
 };
-R.practice=()=>{
-  const sc=ld().sc||{};
-  app.innerHTML=hdr('प्रैक्टिस टेस्ट')+'<main><div class="row" onclick="go(\'mocks\')" style="background:linear-gradient(135deg,#0b1b3a,#1e3a8a);border:0"><span class="ic" style="background:var(--gold)">🏆</span><div class="gr" style="color:#fff"><b>मॉक टेस्ट</b><small>7 विषय · हर विषय 50 प्रश्न · 50 मिनट</small></div>›</div><div class="card"><b>🎯 विषय चुनकर टेस्ट दें</b><br><small class="mut">हर टेस्ट में अधिकतम 10 प्रश्न</small></div>'+
-  S.map((s,i)=>'<div class="row" onclick="startQ('+i+')"><span class="ic" style="background:'+s.c+'">'+s.i+'</span><div class="gr"><b>'+s.n+'</b><small class="mut">'+s.Q.length+' प्रश्न · सर्वश्रेष्ठ: '+(sc[s.id]==null?'-':sc[s.id]+'%')+'</small></div>›</div>').join('')+
-  '<button class="big gold" onclick="startQ(-1)">🔀 सभी विषय मिश्रित</button></main>';
-};
 let qs,qi,qn,qsub,lock;
 function startQ(i){qsub=i;const pool=i<0?S.flatMap(s=>s.Q):S[i].Q;qs=[...pool].sort(()=>Math.random()-.5).slice(0,10);qi=0;qn=0;go('run')}
 R.run=()=>{
@@ -315,10 +309,11 @@ window.mockGuard=function(fn){
   }
   return false;
 };
-R.mocks=()=>{
-  app.innerHTML=hdr('मॉक टेस्ट',"go('practice')")+'<main><div class="card"><b>🏆 पूरा मॉक टेस्ट दें</b><br><small class="mut">हर विषय में 50 प्रश्न · 50 मिनट · हर सही उत्तर पर 1 अंक</small></div>'+
+R.practice=()=>{
+  app.innerHTML=hdr('मॉक टेस्ट')+'<main><div class="card"><b>🏆 पूरा मॉक टेस्ट दें</b><br><small class="mut">हर विषय में 50 प्रश्न · 50 मिनट · हर सही उत्तर पर 1 अंक</small></div>'+
   MK.slice(0,MKB).map((s,i)=>'<div class="row" onclick="go(\'mocklist\','+i+')"><span class="ic" style="background:'+s.c+'">'+s.i+'</span><div class="gr"><b>'+s.n+'</b><small class="mut">कई मॉक टेस्ट · हर टेस्ट 50 प्रश्न · 50 मिनट</small></div>›</div>').join('')+'</main>';
 };
+R.mocks=R.practice;
 /* ===== हर विषय के और मॉक टेस्ट (mock-xxx.json फ़ाइलों से) ===== */
 function mkLoad(si){
   const s=MK[si],key=s.id.replace('m_','');
@@ -330,17 +325,17 @@ function mkLoad(si){
 }
 R.mocklist=si=>{
   const s=MK[si];
-  app.innerHTML=hdr(s.n+' मॉक टेस्ट',"go('mocks')")+'<main><div class="card"><small class="mut">मॉक टेस्ट की सूची लोड हो रही है…</small></div></main>';
+  app.innerHTML=hdr(s.n+' मॉक टेस्ट',"go('practice')")+'<main><div class="card"><small class="mut">मॉक टेस्ट की सूची लोड हो रही है…</small></div></main>';
   mkLoad(si).then(ok=>{
     if(cv!=='mocklist')return;
     const ids=[si].concat(MK.map((x,k)=>x.sub===s.id?k:-1).filter(k=>k>=0));
-    app.innerHTML=hdr(s.n+' मॉक टेस्ट',"go('mocks')")+'<main>'+(ok?'':'<div class="card"><small class="mut">इंटरनेट की समस्या: बाकी मॉक टेस्ट लोड नहीं हुए। इंटरनेट जाँचकर दोबारा खोलें।</small></div>')+
+    app.innerHTML=hdr(s.n+' मॉक टेस्ट',"go('practice')")+'<main>'+(ok?'':'<div class="card"><small class="mut">इंटरनेट की समस्या: बाकी मॉक टेस्ट लोड नहीं हुए। इंटरनेट जाँचकर दोबारा खोलें।</small></div>')+
     ids.map((k,n)=>'<div class="row" onclick="go(\'mockinfo\','+k+')"><span class="ic" style="background:'+s.c+'">'+s.i+'</span><div class="gr"><b>मॉक टेस्ट '+(n+1)+'</b><small class="mut">'+MK[k].Q.length+' प्रश्न · 50 मिनट · सर्वश्रेष्ठ: '+mkBest(MK[k].id)+'</small></div>›</div>').join('')+'</main>';
   });
 };
 R.mockinfo=i=>{
   const s=MK[i];
-  app.innerHTML=hdr(s.n+' मॉक टेस्ट',"go('mocks')")+'<main><div class="card" style="background:'+s.c+';color:#fff"><b style="font-size:20px">'+s.i+' '+s.n+'</b><br><small>पूरा मॉक टेस्ट</small></div><div class="card"><b>निर्देश</b><ul><li>कुल 50 प्रश्न हैं।</li><li>समय 50 मिनट है। समय खत्म होते ही टेस्ट अपने आप जमा हो जाएगा।</li><li>हर सही उत्तर का 1 अंक है। गलत उत्तर पर अंक नहीं कटेगा।</li><li>प्रश्न हिंदी और अंग्रेज़ी दोनों में हैं।</li><li>जमा करने से पहले आप उत्तर बदल सकते हैं।</li></ul><p class="mut">आपका सर्वश्रेष्ठ स्कोर: '+mkBest(s.id)+'</p></div><button class="big gold" onclick="mkStart('+i+')">▶ टेस्ट शुरू करें</button></main>';
+  app.innerHTML=hdr(s.n+' मॉक टेस्ट',"go('practice')")+'<main><div class="card" style="background:'+s.c+';color:#fff"><b style="font-size:20px">'+s.i+' '+s.n+'</b><br><small>पूरा मॉक टेस्ट</small></div><div class="card"><b>निर्देश</b><ul><li>कुल 50 प्रश्न हैं।</li><li>समय 50 मिनट है। समय खत्म होते ही टेस्ट अपने आप जमा हो जाएगा।</li><li>हर सही उत्तर का 1 अंक है। गलत उत्तर पर अंक नहीं कटेगा।</li><li>प्रश्न हिंदी और अंग्रेज़ी दोनों में हैं।</li><li>जमा करने से पहले आप उत्तर बदल सकते हैं।</li></ul><p class="mut">आपका सर्वश्रेष्ठ स्कोर: '+mkBest(s.id)+'</p></div><button class="big gold" onclick="mkStart('+i+')">▶ टेस्ट शुरू करें</button></main>';
 };
 function mkStart(i){mkStop();M=null;go('mockrun',i)}
 R.mockrun=i=>{
@@ -390,7 +385,7 @@ function mkResult(){
   const s=MK[M.i],n=M.qs.length;let ok=0,bad=0,sk=0;
   M.qs.forEach((q,k)=>{const a=M.ans[k];if(a<0)sk++;else if(a===q[4])ok++;else bad++});
   const p=Math.round(ok/n*100);
-  app.innerHTML=hdr('मॉक टेस्ट परिणाम',"go('mocks')")+'<main><div class="card c"><div style="font-size:20px">'+s.i+' '+s.n+'</div><h1>'+ok+'/'+n+'</h1><p>'+(M.auto?'⏰ समय पूरा हो गया। ':'')+(p>=80?'शानदार! बहुत बढ़िया 🎉':p>=50?'अच्छा प्रयास, थोड़ा और अभ्यास करें।':'दोबारा कोशिश करें, पहले नोट्स पढ़ें।')+'</p></div>'+
+  app.innerHTML=hdr('मॉक टेस्ट परिणाम',"go('practice')")+'<main><div class="card c"><div style="font-size:20px">'+s.i+' '+s.n+'</div><h1>'+ok+'/'+n+'</h1><p>'+(M.auto?'⏰ समय पूरा हो गया। ':'')+(p>=80?'शानदार! बहुत बढ़िया 🎉':p>=50?'अच्छा प्रयास, थोड़ा और अभ्यास करें।':'दोबारा कोशिश करें, पहले नोट्स पढ़ें।')+'</p></div>'+
   '<div class="card"><div class="three"><div><b style="color:var(--ok)">✔ '+ok+'</b><small>सही</small></div><div><b style="color:var(--bad)">✘ '+bad+'</b><small>गलत</small></div><div><b>➖ '+sk+'</b><small>छोड़े</small></div></div><div class="three"><div><b>'+p+'%</b><small>प्रतिशत</small></div><div><b>'+mm(M.spent||0)+'</b><small>लगा समय</small></div><div><b>'+mkBest(s.id)+'</b><small>सर्वश्रेष्ठ</small></div></div></div>'+
   '<button class="big gold" onclick="go(\'mockrev\','+M.i+')">📋 उत्तर और हल देखें</button><button class="big" onclick="mkAgain()">🔁 फिर से टेस्ट दें</button><button class="big" onclick="mkList()">🏆 सभी मॉक टेस्ट</button></main>';
 }
@@ -398,7 +393,7 @@ function mkAgain(){const i=M.i;mkStop();M=null;R.mockrun(i);window.scrollTo(0,0)
 function mkList(){goBack();if(cv==='mockinfo')goBack()}
 R.mockrev=i=>{
   if(!M||M.i!==i||!M.done){R.mocks();return}
-  app.innerHTML=hdr('उत्तर और हल',"go('mocks')")+'<main>'+M.qs.map((q,k)=>{
+  app.innerHTML=hdr('उत्तर और हल',"go('practice')")+'<main>'+M.qs.map((q,k)=>{
     const a=M.ans[k];
     return '<div class="card"><small class="mut">प्रश्न '+(k+1)+' · '+(a<0?'छोड़ा गया':a===q[4]?'✔ सही':'✘ गलत')+'</small><h3 style="display:block;font-size:17px;margin:6px 0">'+esc(q[0])+'</h3><p class="mut" style="margin:0;font-size:14px">'+esc(q[1])+'</p>'+
     q[2].map((o,j)=>'<div class="opt'+(j===q[4]?' ok':(j===a?' bad':''))+'">'+mkOpts(q,j)+'</div>').join('')+'</div>';
