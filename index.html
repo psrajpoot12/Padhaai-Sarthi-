@@ -260,13 +260,13 @@ R.timer=()=>{
 const gate=$('#gate');let reg=false;
 async function sha(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
 async function call(o){const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(o)});return r.json()}
-function setMode(r){reg=r;$('#gt').textContent=r?'रजिस्टर':'लॉगिन';$('#gn').hidden=!r;$('#gb').textContent=r?'रजिस्टर करें':'लॉगिन';$('#gs').textContent=r?'पहले से खाता है? लॉगिन करें':'नया खाता बनाएँ (रजिस्टर)';$('#ge').textContent=''}
+function setMode(r){reg=r;$('#gt').textContent=r?'रजिस्टर':'लॉगिन';$('#gn').hidden=!r;$('#gb').textContent=r?'रजिस्टर करें':'लॉगिन';$('#gs').textContent=r?'पहले से खाता है? लॉगिन करें':'नया खाता बनाएँ (रजिस्टर)';$('#ge').textContent='';$('#gp').placeholder=r?'पासवर्ड (कम से कम 8 अक्षर)':'पासवर्ड'}
 $('#gs').onclick=()=>setMode(!reg);
 $('#gb').onclick=async()=>{
   const n=$('#gn').value.trim(),m=$('#gm').value.trim(),p=$('#gp').value,e=$('#ge');
   if(reg&&n.length<2){e.textContent='नाम लिखें';return}
   if(!/^[6-9][0-9]{9}$/.test(m)){e.textContent='सही 10 अंकों का मोबाइल नंबर लिखें';return}
-  if(p.length<6){e.textContent='पासवर्ड कम से कम 6 अक्षर का रखें';return}
+  if(p.length<(reg?8:6)){e.textContent=reg?'पासवर्ड कम से कम 8 अक्षर का रखें (अक्षर और अंक मिलाकर)':'पासवर्ड कम से कम 6 अक्षर का रखें';return}
   e.textContent='कृपया रुकें...';$('#gb').disabled=true;
   try{
     const h=await sha(m+':'+p);
